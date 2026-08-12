@@ -1614,9 +1614,90 @@ function AdminDashboard({ adminPassword, onLogout, onBack }) {
     </div>
   );
 }
+function SiteGate({ onUnlock }) {
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [checking, setChecking] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!password) return;
+    setChecking(true);
+    setError("");
+    try {
+      await apiFetch("/api/site/unlock", {
+        method: "POST",
+        body: JSON.stringify({ password }),
+      });
+      localStorage.setItem("site_unlocked", "true");
+      onUnlock();
+    } catch (err) {
+      setError(err.message || "Could not unlock");
+    } finally {
+      setChecking(false);
+    }
+  };
+
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center px-6"
+      style={{ background: COLORS.greenDeep }}
+    >
+      <div className="max-w-sm w-full text-center">
+        <img src={LOGO_SRC} alt="Sativa Umdloti" className="w-16 h-16 mx-auto mb-8" />
+        <div
+          className="text-[11px] tracking-[0.18em] uppercase mb-3"
+          style={{ color: COLORS.amber }}
+        >
+          Coming soon
+        </div>
+        <h1
+          className="font-serif text-[26px] leading-tight mb-6"
+          style={{ color: COLORS.paper }}
+        >
+          Sativa Umdloti
+        </h1>
+        <form onSubmit={handleSubmit} className="text-left">
+          <input
+            type="password"
+            autoFocus
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
+            className="w-full bg-transparent border-0 border-b px-0 py-2.5 text-[15px] focus:outline-none"
+            style={{
+              borderColor: error ? "#E08A6E" : "rgba(247,245,239,0.35)",
+              color: COLORS.paper,
+            }}
+          />
+          {error && (
+            <p className="text-[12px] mt-2" style={{ color: "#E08A6E" }}>
+              {error}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={checking}
+            className="w-full mt-6 py-3.5 text-[13px] tracking-[0.12em] uppercase font-medium disabled:opacity-60"
+            style={{ background: COLORS.amber, color: COLORS.greenDeep }}
+          >
+            {checking ? "Checking…" : "Enter"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
-  const [verified, setVerified] = useState(false);
+  const [verified, setVerified] = useState(false); 
+  const [siteUnlocked, setSiteUnlocked] = useState(
+  () => localStorage.getItem("site_unlocked") === "true"
+);
+
   const [view, setView] = useState("home"); // home | register | catalogue | cart | checkout | order-confirmed
   const [cart, setCart] = useState({}); // { [productId]: qty }
   const [products, setProducts] = useState(FALLBACK_PRODUCTS);
@@ -1652,6 +1733,11 @@ export default function App() {
       return next;
     });
   const cartCount = Object.values(cart).reduce((sum, q) => sum + q, 0);
+
+  if (!siteUnlocked) {
+  return <SiteGate onUnlock={() => setSiteUnlocked(true)} />;
+  }
+
 
   return (
     <div style={{ background: COLORS.paper }}>
