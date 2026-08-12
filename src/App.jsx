@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 // Base URL of the backend API (see /backend in this project). Point this at
 // your deployed API once it's live — for local dev with `npm run dev` in
 // the backend folder, http://localhost:4000 is the default.
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://sativa-umdloti-backend.onrender.com";
+;
 
 async function apiFetch(path, options = {}) {
   const res = await fetch(`${API_BASE_URL}${path}`, {
