@@ -1734,6 +1734,11 @@ export default function App() {
     });
   const cartCount = Object.values(cart).reduce((sum, q) => sum + q, 0);
 
+  if (!siteUnlocked) {
+  return <SiteGate onUnlock={() => setSiteUnlocked(true)} />;
+  }
+
+
   return (
     <div style={{ background: COLORS.paper }}>
       {!verified && <AgeGate onVerified={() => setVerified(true)} />}
