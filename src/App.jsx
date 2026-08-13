@@ -1748,19 +1748,20 @@ export default function App() {
     });
   const cartCount = Object.values(cart).reduce((sum, q) => sum + q, 0);
 
-  if (!siteUnlocked) {
-  return <SiteGate onUnlock={() => setSiteUnlocked(true)} />;
-  }
+    if (!siteUnlocked) {
+      return <SiteGate onUnlock={() => setSiteUnlocked(true)} />;
+    }
 
+    if (!verified) {
+      return <AgeGate onVerified={() => setVerified(true)} />;
+    }
 
-  return (
-    <div style={{ background: COLORS.paper }}>
-      {!verified && <AgeGate onVerified={() => setVerified(true)} />}
-
-      {view === "register" && (
-        <RegistrationForm onBack={() => setView("home")} />
-      )}
-
+    return (
+      <div style={{ background: COLORS.paper }}>
+        {view === "register" && (
+          <RegistrationForm onBack={() => setView("home")} />
+        )}
+        
       {view === "catalogue" && (
         <CataloguePage
           products={products}
