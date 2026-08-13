@@ -117,31 +117,28 @@ function AgeGate({ onVerified }) {
       className="fixed inset-0 z-50 flex items-center justify-center px-6"
       style={{ background: COLORS.greenDeep }}
     >
-      <div className="max-w-sm w-full text-center">
-        <img
-          src={LOGO_SRC}
-          alt="Sativa Umdloti"
-          className="w-20 h-20 mx-auto mb-8"
-        />
-        <div
-          className="text-[11px] tracking-[0.18em] uppercase mb-3"
-          style={{ color: COLORS.amber }}
-        >
-          18+ only
-        </div>
-        <h1
-          className="font-serif text-[28px] leading-tight mb-3"
-          style={{ color: COLORS.paper }}
-        >
-          Sativa Umdloti
-        </h1>
-        <p
-          className="text-[14px] leading-relaxed mb-8"
-          style={{ color: "#C9CFC2" }}
-        >
-          You need to be 18 or older to enter. Confirm your date of birth
-          to continue.
-        </p>
+    <div
+  className="text-[11px] tracking-[0.18em] uppercase mb-3"
+  style={{ color: COLORS.amber }}
+>
+  Sativa Umdloti · Members only
+</div>
+<h1
+  className="font-serif text-[28px] leading-tight mb-3"
+  style={{ color: COLORS.ink }}
+>
+  Join Sativa Umdloti
+</h1>
+<p
+  className="text-[14px] leading-relaxed mb-8"
+  style={{ color: "#5B5645" }}
+>
+  Become a member of Sativa Umdloti to access members-only
+  cannabis products, this ensures compliance with South African law and
+  protecting your rights as a valued member. Membership is strictly
+  restricted to persons over the age of 18.
+</p>
+
         <form onSubmit={check} className="text-left">
           <label className="block mb-1">
             <span
@@ -185,7 +182,6 @@ function AgeGate({ onVerified }) {
           By entering, you confirm you are 18 years of age or older.
         </p>
       </div>
-    </div>
   );
 }
 
@@ -1069,7 +1065,10 @@ const initialForm = {
   email: "",
   phone: "",
   address: "",
-  consent: false,
+  ageWarranty: false,
+  termsAgreed: false,
+
+ 
 };
 
 
@@ -1102,7 +1101,8 @@ function RegistrationForm({ onBack }) {
     Object.entries(req).forEach(([k, msg]) => {
       if (!String(form[k]).trim()) next[k] = msg;
     });
-    if (!form.consent) next.consent = "Consent is required to proceed";
+    if (!form.ageWarranty) next.ageWarranty = "This warranty is required";
+    if (!form.termsAgreed) next.termsAgreed = "You must agree to the terms";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -1279,22 +1279,36 @@ function RegistrationForm({ onBack }) {
               />
             </Field>
           </div>
-
-          <label className="flex items-start gap-3 mb-2 cursor-pointer">
-            <input
+            <label className="flex items-start gap-3 mb-4 cursor-pointer">
+              <input
               type="checkbox"
-              checked={form.consent}
-              onChange={set("consent")}
+              checked={form.ageWarranty}
+              onChange={set("ageWarranty")}
               className="mt-1"
               style={{ accentColor: COLORS.green }}
             />
-            <span className="text-[13px] leading-relaxed" style={{ color: "#5B5645" }}>
-              I confirm I am 18 years or older, the information provided is
-              accurate, and I consent to Sativa Umdloti processing my
-              personal information in accordance with POPIA for the purpose
-              of this registration.
-            </span>
-          </label>
+              <span className="text-[13px] leading-relaxed" style={{ color: "#5B5645" }}>
+                I warrant that I am an adult by virtue of having a valid ID document
+                in my name. I acknowledge that it constitutes fraud to falsely
+                misrepresent my age and/or name to the Collective, and that it is
+                both a criminal and civil offense to make a false claim in this
+                regard. Any person who falsely misrepresents their age or ID shall
+                be reported to the appropriate authorities.
+                    </span>
+                  </label>
+                  <label className="flex items-start gap-3 mb-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.termsAgreed}
+                      onChange={set("termsAgreed")}
+                      className="mt-1"
+                      style={{ accentColor: COLORS.green }}
+                    />
+                    <span className="text-[13px] leading-relaxed" style={{ color: "#5B5645" }}>
+                      I have read and agree to the website terms and conditions.
+                    </span>
+                  </label>
+
           {errors.consent && (
             <span className="block text-[12px] mb-6" style={{ color: COLORS.error }}>
               {errors.consent}
