@@ -1288,13 +1288,13 @@ function RegistrationForm({ onBack }) {
               style={{ accentColor: COLORS.green }}
             />
               <span className="text-[13px] leading-relaxed" style={{ color: "#5B5645" }}>
-                I warrant that I am an adult by virtue of having a valid ID document
-                in my name. I acknowledge that it constitutes fraud to falsely
-                misrepresent my age and/or name to the Collective, and that it is
-                both a criminal and civil offense to make a false claim in this
-                regard. Any person who falsely misrepresents their age or ID shall
-                be reported to the appropriate authorities.
-                    </span>
+                  I confirm that I am 18 or older and hold a valid ID document proving
+                  this. I understand that providing false information about my age or
+                  identity to Sativa Umdloti is a criminal and civil offence, and that
+                  anyone found to have done so will be reported to the relevant
+                  authorities.
+                </span>
+
                   </label>
                   <label className="flex items-start gap-3 mb-2 cursor-pointer">
                     <input
